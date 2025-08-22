@@ -1,25 +1,23 @@
+# Para sites estáticos simples (HTML/CSS/JS apenas)
 steps:
-  # Se seu site precisa de build (React, Vue, etc.)
-  - name: 'node:18'
-    entrypoint: 'npm'
-    args: ['ci']
-  
-  - name: 'node:18'
-    entrypoint: 'npm'
-    args: ['run', 'build']
-  
-  # Deploy para Cloud Storage
   - name: 'gcr.io/cloud-builders/gsutil'
-    args: ['-m', 'rsync', '-r', '-c', '-d', './build/', 'gs://aucto/']
+    args: ['-m', 'rsync', '-r', '-c', '-d', './', 'gs://aucto/']
 
-# Configurações de logging
 options:
   logging: CLOUD_LOGGING_ONLY
 
-# Para sites estáticos simples (HTML/CSS/JS apenas), use isto:
+# Para projetos com build (React, Vue, etc.), use isto:
 # steps:
+#   - name: 'node:18'
+#     entrypoint: 'npm'
+#     args: ['ci']
+#   
+#   - name: 'node:18'
+#     entrypoint: 'npm'
+#     args: ['run', 'build']
+#   
 #   - name: 'gcr.io/cloud-builders/gsutil'
-#     args: ['-m', 'rsync', '-r', '-c', '-d', './', 'gs://aucto/']
+#     args: ['-m', 'rsync', '-r', '-c', '-d', './build/', 'gs://aucto/']
 # 
 # options:
 #   logging: CLOUD_LOGGING_ONLY
