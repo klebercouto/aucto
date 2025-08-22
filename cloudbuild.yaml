@@ -1,0 +1,21 @@
+steps:
+  # Se seu site precisa de build (React, Vue, etc.)
+  - name: 'node:18'
+    entrypoint: 'npm'
+    args: ['ci']
+  
+  - name: 'node:18'
+    entrypoint: 'npm'
+    args: ['run', 'build']
+  
+  # Deploy para Cloud Storage
+  - name: 'gcr.io/cloud-builders/gsutil'
+    args: ['-m', 'rsync', '-r', '-c', '-d', './build/', 'gs://aucto/']
+
+# Para sites estáticos simples (HTML/CSS/JS apenas)
+# Substitua os steps acima por:
+# steps:
+#   - name: 'gcr.io/cloud-builders/gsutil'
+#     args: ['-m', 'rsync', '-r', '-c', '-d', './', 'gs://aucto/']
+
+timeout: '1200s'
